@@ -19,7 +19,7 @@ class Menu extends Phaser.Scene{
 
         this.add.image(400,300, 'background');
         //hacer el boton interactivo
-        this.startButton = this.add.image(400,400, 'button').setInteractive();
+        this.startButton = this.add.image(400,300, 'button').setInteractive().setScale(0.5,0.5);
         //cuando el boton sea precionado pasar a Escena1
         this.startButton.on('pointerdown', () =>{
             this.scene.start('Escena1');
