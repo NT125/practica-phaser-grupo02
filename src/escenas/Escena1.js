@@ -122,22 +122,8 @@ class Escena1 extends Phaser.Scene {
 
     //Hay estrellas en la pantalla?
     if (this.stars.countActive(true) === 0) {
-      this.stars.children.iterate(function (child) {
-        // Establecer posiciones aleatorias
-        const randomX = Phaser.Math.Between(0, 600);
-
-        child.enableBody(true, randomX, 0, true, true);
-      });
-      //Generando rango 
-      let x =
-        player.x < 400
-          ? Phaser.Math.Between(400, 800)
-          : Phaser.Math.Between(0, 400);
-      //Creando bombas
-      let bomb = this.bombs.create(x, 16, "bomb");
-      bomb.setBounce(1);
-      bomb.setCollideWorldBounds(true);
-      bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
+      // Mostrando pantalla de victoria (del nivel)
+      this.scene.start('NextLevel')
     }
   }
   hitBomb(player, bomb) {
