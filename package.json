@@ -1,0 +1,19 @@
+{
+  "name": "practica-phaser-grupo02",
+  "version": "1.0.0",
+  "description": "**Materia:** Fundamentos de Programación Web, TUDIVJ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "main": "server.js",
+    "start": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "expres": "^0.0.5",
+    "nodemon": "^3.0.1",
+    "phaser": "^3.60.0"
+  }
+}
