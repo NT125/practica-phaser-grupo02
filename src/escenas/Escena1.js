@@ -24,11 +24,10 @@ class Escena1 extends Phaser.Scene {
     this.platforms.create(600, 400, "ground");
     this.platforms.create(50, 250, "ground");
     this.platforms.create(750, 220, "ground");
-
-    this.add.image(400, 300, "star");
+    
     this.player = this.physics.add.sprite(100, 100, "dude");
 
-    this.player.setBounce(0.5);
+    this.player.setBounce(0.0);
     this.player.setCollideWorldBounds(true);
 
     this.anims.create({
