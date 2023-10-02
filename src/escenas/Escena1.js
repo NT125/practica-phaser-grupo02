@@ -1,9 +1,7 @@
 class Escena1 extends Phaser.Scene {
   constructor() {
     super("Escena1");
-    this.score = 0;
-    this.scoreText = "";
-    this.cantStarts = 2;
+    this.cantStars = 2;
   }
   preload() {
     //Precargando Imagenes
@@ -56,7 +54,7 @@ class Escena1 extends Phaser.Scene {
     // Se agregan Estrellas
     this.stars = this.physics.add.group({
       key: "star",
-      repeat: this.cantStarts,
+      repeat: this.cantStars,
       setXY: { x: Phaser.Math.Between(0, 600), y: 0, stepX: 70 },
     });
     // Rebote en el grupo de estrellas
@@ -76,7 +74,8 @@ class Escena1 extends Phaser.Scene {
     );
 
     // Para controlar el mensaje
-    this.scoreText = this.add.text(16, 16, "score: 0", {
+    this.scoreText = this.add.text(16, 16, "Tutorial", {
+      fontFamily: "sans-serif",
       fontSize: "32px",
       fill: "#000",
     });
@@ -116,22 +115,13 @@ class Escena1 extends Phaser.Scene {
   collectStar(player, star) {
     //Cuando se superpone jugador con estrella
     star.disableBody(true, true);
-    //Mensaje, sumando puntos cada 10
-    this.score += 10;
-    this.scoreText.setText("Score: " + this.score);
+    this.cantStars--;
 
     //Hay estrellas en la pantalla?
     if (this.stars.countActive(true) === 0) {
       // Mostrando pantalla de victoria (del nivel)
       this.scene.start('NextLevel')
     }
-  }
-  hitBomb(player, bomb) {
-    this.physics.pause();
-    player.setTint(0xff0000);
-    player.anims.play("turn");
-    this.scene.start("GameOver");
-    this.score = 0;
   }
 }
 export default Escena1;

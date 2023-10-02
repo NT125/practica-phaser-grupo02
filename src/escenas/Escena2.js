@@ -81,7 +81,8 @@ class Escena2 extends Phaser.Scene {
       );
   
       // Para controlar el mensaje
-      this.scoreText = this.add.text(16, 16, "score: 0", { 
+      this.scoreText = this.add.text(16, 16, "Puntuación: 0", { 
+        fontFamily: "sans-serif",
         fontSize: "32px",
         fill: "#000",
       });
@@ -121,7 +122,7 @@ class Escena2 extends Phaser.Scene {
       star.disableBody(true, true);
       //Mensaje, sumando puntos cada 10
       this.score += 10;
-      this.scoreText.setText("Score: " + this.score);
+      this.scoreText.setText("Puntuación: " + this.score);
   
   
       //Para las bombas
@@ -153,6 +154,7 @@ class Escena2 extends Phaser.Scene {
       this.physics.pause();
       player.setTint(0xff0000);
       player.anims.play("turn");
+
       this.scene.start('GameOver');
     }
   }
