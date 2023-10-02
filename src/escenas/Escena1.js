@@ -4,6 +4,11 @@ class Escena1 extends Phaser.Scene {
     this.cantStars = 2;
   }
   preload() {
+     //Precargando Sonidos
+    this.load.audio('sonidoEstrella', ['/public/sound/confirmation_003.ogg']);
+    this.load.audio('sonidoEstrellaFinal', ['/public/sound/confirmation_002.ogg']);
+    this.load.audio('sonidoSalto', ['/public/sound/maximize_008.ogg']);
+    this.load.audio('musicaTH', ['/public/music/imstill8bits.mp3']);
     //Precargando Imagenes
     this.load.image("sky", "../../public/img/sky.png");
     this.load.image("ground", "../../public/img/platform.png");
@@ -15,6 +20,12 @@ class Escena1 extends Phaser.Scene {
     });
   }
   create() {
+  
+    //Agregamos la musica
+    let musicaTH = this.sound.add('musicaTH');
+    
+    musicaTH.play();
+    musicaTH.setVolume(0.1);
     // TODO: Todo lo que se va a agregar a la Escena
     this.add.image(400, 300, "sky");
     this.platforms = this.physics.add.staticGroup();
@@ -104,15 +115,24 @@ class Escena1 extends Phaser.Scene {
       this.player.anims.play("right", true);
     } else {
       this.player.setVelocityX(0);
-
       this.player.anims.play("turn");
     }
     if (this.cursors.up.isDown && this.player.body.touching.down) {
       this.player.setVelocityY(-330);
+      let sonidoSalto = this.sound.add('sonidoSalto');
+      sonidoSalto.play();
     }
   }
   // revisando colisiones
   collectStar(player, star) {
+   
+    let sonidoEstrella = this.sound.add('sonidoEstrella');
+    let sonidoEstrellaFinal = this.sound.add('sonidoEstrellaFinal');
+    if(this.stars.countActive(true) > 1){
+      sonidoEstrella.play();
+    } else {
+    sonidoEstrellaFinal.play();
+    };
     //Cuando se superpone jugador con estrella
     star.disableBody(true, true);
     this.cantStars--;
@@ -120,6 +140,7 @@ class Escena1 extends Phaser.Scene {
     //Hay estrellas en la pantalla?
     if (this.stars.countActive(true) === 0) {
       // Mostrando pantalla de victoria (del nivel)
+
       this.scene.start('NextLevel')
     }
   }

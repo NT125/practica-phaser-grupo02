@@ -3,7 +3,8 @@ class GameOver extends Phaser.Scene {
         super("GameOver");
     }
     preload() {
-        // this.load.audio('cancion', '/public/sound/cancion.mp3')
+         //Precargando Sonidos
+         this.load.audio('sonidoPerdiendo', ['/public/sound/error_006.ogg']);
         this.load.image('game-over', '/public/img/game-over.jpg');
         this.load.image('buttonReset', '/public/img/reset.jpg');
     }
@@ -20,7 +21,8 @@ class GameOver extends Phaser.Scene {
             fontSize: "32px",
             fill: "#fff",
         }); */
-
+        let sonidoPerdiendo = this.sound.add('sonidoPerdiendo');
+        sonidoPerdiendo.play();
         this.add.image(400, 200, 'game-over');
         this.startButton = this.add.image(400, 450, 'buttonReset').setInteractive();
         this.startButton.on('pointerdown', () => {

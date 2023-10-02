@@ -6,6 +6,10 @@ class Escena2 extends Phaser.Scene {
       this.cantStarts=4;
     }
     preload() {
+           //Precargando Sonidos
+    this.load.audio('sonidoEstrella', ['/public/sound/confirmation_003.ogg']);
+    this.load.audio('sonidoEstrellaFinal', ['/public/sound/confirmation_002.ogg']);
+    this.load.audio('sonidoSalto', ['/public/sound/maximize_008.ogg']);
       //Precargando Imagenes
       this.load.image("sky2", "../../public/img/sky2.png");
       this.load.image("ground", "../../public/img/platform.png"); 
@@ -114,10 +118,21 @@ class Escena2 extends Phaser.Scene {
       }
       if (this.cursors.up.isDown && this.player.body.touching.down) {
         this.player.setVelocityY(-330);
+        let sonidoSalto = this.sound.add('sonidoSalto');
+        sonidoSalto.play();
       }
     }
     // revisando colisiones
     collectStar(player, star) {
+      //
+      let sonidoEstrella = this.sound.add('sonidoEstrella');
+      let sonidoEstrellaFinal = this.sound.add('sonidoEstrellaFinal');
+      if(this.stars.countActive(true) > 1){
+        sonidoEstrella.play();
+      } else {
+      sonidoEstrellaFinal.play();
+      };
+
       //Cuando se superpone jugador con estrella
       star.disableBody(true, true);
       //Mensaje, sumando puntos cada 10
