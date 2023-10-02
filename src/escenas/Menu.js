@@ -22,7 +22,7 @@ class Menu extends Phaser.Scene{
         this.startButton = this.add.image(400,300, 'button').setInteractive().setScale(0.5,0.5);
         //cuando el boton sea precionado pasar a Escena1
         this.startButton.on('pointerdown', () =>{
-            this.scene.start('Escena1');
+            this.scene.start('Tutorial');
         });
 
     }

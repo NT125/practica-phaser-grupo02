@@ -3,7 +3,7 @@ class Escena2 extends Phaser.Scene {
       super("Escena2");
       this.score = 0; 
       this.scoreText = "";
-      this.cantStarts=1;
+      this.cantStarts=4;
     }
     preload() {
       //Precargando Imagenes
@@ -24,6 +24,7 @@ class Escena2 extends Phaser.Scene {
       this.platforms.create(400, 568, "ground").setScale(2).refreshBody();
       this.platforms.create(300, 100, "ground").setScale(0.5,1).refreshBody();
       this.platforms.create(250, 650, "ground2");
+      this.platforms.create(-160, 230, "ground");
       this.platforms.create(500, 650, "ground2");
       this.platforms.create(400, 500, "ground2");
       this.platforms.create(750, 220, "ground");
@@ -80,7 +81,8 @@ class Escena2 extends Phaser.Scene {
       );
   
       // Para controlar el mensaje
-      this.scoreText = this.add.text(16, 16, "score: 0", { 
+      this.scoreText = this.add.text(16, 16, "Puntuación: 0", { 
+        fontFamily: "sans-serif",
         fontSize: "32px",
         fill: "#000",
       });
@@ -120,7 +122,7 @@ class Escena2 extends Phaser.Scene {
       star.disableBody(true, true);
       //Mensaje, sumando puntos cada 10
       this.score += 10;
-      this.scoreText.setText("Score: " + this.score);
+      this.scoreText.setText("Puntuación: " + this.score);
   
   
       //Para las bombas
@@ -140,11 +142,11 @@ class Escena2 extends Phaser.Scene {
         bomb.setCollideWorldBounds(true);
         bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
         //otra bomba XD
-        let bomb1 = this.bombs.create(x, 16, "bomb");
+        /*let bomb1 = this.bombs.create(x, 16, "bomb");
   
         bomb1.setBounce(1);
         bomb1.setCollideWorldBounds(true);
-        bomb1.setVelocity(Phaser.Math.Between(-200, 200), 20);
+        bomb1.setVelocity(Phaser.Math.Between(-200, 200), 20);*/
       }
     }
     hitBomb(player, bomb) {
@@ -152,6 +154,7 @@ class Escena2 extends Phaser.Scene {
       this.physics.pause();
       player.setTint(0xff0000);
       player.anims.play("turn");
+
       this.scene.start('GameOver');
     }
   }

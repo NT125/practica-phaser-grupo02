@@ -10,7 +10,7 @@ class NextLevel extends Phaser.Scene{
     create() {
 
         this.add.image(400,300, 'level-complete');
-        this.startButton = this.add.image(400,450, 'buttonNextLevel').setInteractive();
+        this.startButton = this.add.image(400,520, 'buttonNextLevel').setInteractive();
         this.startButton.on('pointerdown', () =>{
             this.scene.start('Escena2');
         });

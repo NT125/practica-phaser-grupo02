@@ -1,5 +1,5 @@
-class GameOver extends Phaser.Scene{
-    constructor(){
+class GameOver extends Phaser.Scene {
+    constructor() {
         super("GameOver");
     }
     preload() {
@@ -14,11 +14,17 @@ class GameOver extends Phaser.Scene{
         //     volume: 1,
         //     loop: true
         // }
+        console.log(this.data)
+        /* this.scoreText = this.add.text(16, 16, score, {
+            fontFamily: "sans-serif",
+            fontSize: "32px",
+            fill: "#fff",
+        }); */
 
-        this.add.image(400,300, 'game-over');
-        this.startButton = this.add.image(400,450, 'buttonReset').setInteractive();
-        this.startButton.on('pointerdown', () =>{
-            this.scene.start('Menu');
+        this.add.image(400, 200, 'game-over');
+        this.startButton = this.add.image(400, 450, 'buttonReset').setInteractive();
+        this.startButton.on('pointerdown', () => {
+            this.scene.start('Escena2');
         });
 
     }
