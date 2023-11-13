@@ -4,6 +4,7 @@ import GameOver from "./escenas/GameOver.js";
 import Menu from "./escenas/Menu.js";
 import NextLevel from "./escenas/NextLevel.js";
 import Tutorial from "./escenas/Tutorial.js";
+import Escena3 from "./escenas/Escena3.js";
 
 let config = {
     type: Phaser.AUTO,
@@ -16,7 +17,7 @@ let config = {
             debug: false
         }
     },
-    scene:[Menu, Tutorial, Escena1, NextLevel, Escena2, GameOver]
+    scene:[Menu, Tutorial, Escena1, NextLevel,Escena2,GameOver,Escena3]
 };
 
 let game = new Phaser.Game(config);
