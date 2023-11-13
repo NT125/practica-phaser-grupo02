@@ -4,20 +4,19 @@ class Escena3 extends Phaser.Scene {
     this.score = 0;
     this.scoreText = "";
     this.cantStarts = 4;
+    this.tiempoRestante = 60;
+    this.tiempoTexto = "";
   }
 
   preload() {
-    // Precargando Sonidos
     this.load.audio('sonidoEstrella', ['/public/sound/confirmation_003.ogg']);
     this.load.audio('sonidoEstrellaFinal', ['/public/sound/confirmation_002.ogg']);
     this.load.audio('sonidoSalto', ['/public/sound/maximize_008.ogg']);
-
-    // Precargando Imagenes
     this.load.image("sky3", "../../public/img/sky3.png");
     this.load.image("ground", "../../public/img/platform.png");
     this.load.image("star", "../../public/img/star.png");
     this.load.image("bomb", "../../public/img/bomb.png");
-    this.load.image("ground2", "../../public/img/platform-copia.png")
+    this.load.image("ground2", "../../public/img/platform-copia.png");
     this.load.spritesheet("dude", "../../public/img/dude.png", {
       frameWidth: 32,
       frameHeight: 48,
@@ -25,34 +24,25 @@ class Escena3 extends Phaser.Scene {
   }
 
   create() {
-    // TODO: Todo lo que se va a agregar a la Escena
     this.add.image(400, 300, "sky3").setDisplaySize(800, 600);
 
     this.platforms = this.physics.add.staticGroup();
 
-    this.platforms = this.physics.add.staticGroup();
-
-    // Plataformas
     this.platforms.create(400, 568, "ground").setScale(2).refreshBody();
     this.platforms.create(600, 400, "ground");
     this.platforms.create(50, 250, "ground");
     this.platforms.create(750, 220, "ground");
-    
-    // Jugador
+
     this.player = this.physics.add.sprite(50, 500, "dude");
     this.player.setBounce(0.0);
     this.player.setCollideWorldBounds(true);
 
-    // Animaciones del jugador
     this.createAnimations();
 
-    // Colisiones entre jugador y plataformas
     this.physics.add.collider(this.player, this.platforms);
 
-    // Controles
     this.cursors = this.input.keyboard.createCursorKeys();
 
-    // Estrellas
     this.stars = this.physics.add.group({
       key: "star",
       repeat: this.cantStarts,
@@ -66,22 +56,32 @@ class Escena3 extends Phaser.Scene {
     this.physics.add.collider(this.stars, this.platforms);
     this.physics.add.overlap(this.player, this.stars, this.collectStar, null, this);
 
-    // Puntuación
     this.scoreText = this.add.text(16, 16, "Puntuación: 0", {
       fontFamily: "sans-serif",
       fontSize: "32px",
       fill: "#000",
     });
 
-    // Bombas
+    this.tiempoTexto = this.add.text(600, 16, "Tiempo: " + this.tiempoRestante, {
+      fontFamily: "sans-serif",
+      fontSize: "32px",
+      fill: "#000",
+    });
+
     this.bombs = this.physics.add.group();
     this.physics.add.collider(this.bombs, this.platforms);
     this.physics.add.collider(this.player, this.bombs, this.hitBomb, null, this);
   }
 
   update() {
-    // Actualización de controles y animaciones del jugador
     this.updatePlayerControls();
+
+    this.tiempoRestante -= this.game.loop.delta / 1000;
+    this.tiempoTexto.setText("Tiempo: " + Math.ceil(this.tiempoRestante));
+
+    if (this.tiempoRestante <= 0) {
+      this.scene.start('GameOver');
+    }
   }
 
   createPlatform(x, y, key, scaleX = 1, scaleY = 1) {
@@ -138,7 +138,7 @@ class Escena3 extends Phaser.Scene {
       sonidoEstrella.play();
     } else {
       sonidoEstrellaFinal.play();
-    };
+    }
 
     star.disableBody(true, true);
     this.score += 10;
