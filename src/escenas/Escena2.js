@@ -123,47 +123,59 @@ class Escena2 extends Phaser.Scene {
       }
     }
     // revisando colisiones
-    collectStar(player, star) {
-      //
-      let sonidoEstrella = this.sound.add('sonidoEstrella');
-      let sonidoEstrellaFinal = this.sound.add('sonidoEstrellaFinal');
-      if(this.stars.countActive(true) > 1){
-        sonidoEstrella.play();
-      } else {
-      sonidoEstrellaFinal.play();
-      };
+    // ...
 
-      //Cuando se superpone jugador con estrella
-      star.disableBody(true, true);
-      //Mensaje, sumando puntos cada 10
-      this.score += 10;
-      this.scoreText.setText("Puntuación: " + this.score);
+collectStar(player, star) {
+  let sonidoEstrella = this.sound.add('sonidoEstrella');
+  let sonidoEstrellaFinal = this.sound.add('sonidoEstrellaFinal');
   
+  if (this.stars.countActive(true) > 1) {
+      sonidoEstrella.play();
+  } else {
+      sonidoEstrellaFinal.play();
+  }
+
+  // Cuando se superpone jugador con estrella
+  star.disableBody(true, true);
   
-      //Para las bombas
-      if (this.stars.countActive(true) === 0) {
-        this.stars.children.iterate(function (child) {
-          const randomX = Phaser.Math.Between(0,500);
+  // Mensaje, sumando puntos cada 10
+  this.score += 10;
+  this.scoreText.setText("Puntuación: " + this.score);
+
+  // Verificar si el puntaje alcanza los 100
+  if (this.score >= 10) {
+      // Cambiar a la escena 3 o la que desees
+      this.scene.start('Escena3');
+  }
+
+  // Para las bombas
+  if (this.stars.countActive(true) === 0) {
+      this.stars.children.iterate(function (child) {
+          const randomX = Phaser.Math.Between(0, 500);
           child.enableBody(true, randomX, 0, true, true);
-        });
-        let x =
+      });
+
+      let x =
           player.x < 400
-            ? Phaser.Math.Between(400, 800)
-            : Phaser.Math.Between(0, 400);
-  
-        let bomb = this.bombs.create(x, 16, "bomb");
-        
-        bomb.setBounce(1);
-        bomb.setCollideWorldBounds(true);
-        bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
-        //otra bomba XD
-        /*let bomb1 = this.bombs.create(x, 16, "bomb");
-  
-        bomb1.setBounce(1);
-        bomb1.setCollideWorldBounds(true);
-        bomb1.setVelocity(Phaser.Math.Between(-200, 200), 20);*/
-      }
-    }
+              ? Phaser.Math.Between(400, 800)
+              : Phaser.Math.Between(0, 400);
+
+      let bomb = this.bombs.create(x, 16, "bomb");
+
+      bomb.setBounce(1);
+      bomb.setCollideWorldBounds(true);
+      bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
+
+      let bomb1 = this.bombs.create(x, 16, "bomb");
+
+      bomb1.setBounce(1);
+      bomb1.setCollideWorldBounds(true);
+      bomb1.setVelocity(Phaser.Math.Between(-200, 200), 20);
+  }
+}
+
+// ...
+
     hitBomb(player, bomb) {
       this.score = 0;
       this.physics.pause();
