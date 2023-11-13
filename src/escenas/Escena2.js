@@ -143,7 +143,7 @@ collectStar(player, star) {
   this.scoreText.setText("Puntuación: " + this.score);
 
   // Verificar si el puntaje alcanza los 100
-  if (this.score >= 10) {
+  if (this.score >= 100) {
       // Cambiar a la escena 3 o la que desees
       this.scene.start('Escena3');
   }
