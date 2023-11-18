@@ -6,12 +6,14 @@ class Escena3 extends Phaser.Scene {
     this.cantStarts = 4;
     this.tiempoRestante = 60;
     this.tiempoTexto = "";
+    this.sonidoSalto = null; // Nueva propiedad para el sonido de salto
   }
 
   preload() {
     this.load.audio('sonidoEstrella', ['/public/sound/confirmation_003.ogg']);
     this.load.audio('sonidoEstrellaFinal', ['/public/sound/confirmation_002.ogg']);
     this.load.audio('sonidoSalto', ['/public/sound/maximize_008.ogg']);
+    this.sonidoSalto = this.sound.add('sonidoSalto'); // Asignar el sonido de salto
     this.load.image("sky3", "../../public/img/sky3.png");
     this.load.image("ground", "../../public/img/platform.png");
     this.load.image("star", "../../public/img/star.png");
@@ -21,6 +23,7 @@ class Escena3 extends Phaser.Scene {
       frameWidth: 32,
       frameHeight: 48,
     });
+    this.load.image("treasure", "../../public/img/cofre.png"); // Nueva imagen del tesoro
   }
 
   create() {
@@ -125,8 +128,7 @@ class Escena3 extends Phaser.Scene {
 
     if (this.cursors.up.isDown && this.player.body.touching.down) {
       this.player.setVelocityY(-330);
-      let sonidoSalto = this.sound.add('sonidoSalto');
-      sonidoSalto.play();
+      this.sonidoSalto.play(); // Reproduce el sonido de salto
     }
   }
 
@@ -152,6 +154,10 @@ class Escena3 extends Phaser.Scene {
 
       this.createBomb();
       this.createBomb();
+
+      if (this.score >= 100) {
+        this.createTreasure();
+      }
     }
   }
 
@@ -164,8 +170,21 @@ class Escena3 extends Phaser.Scene {
     bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
   }
 
+  createTreasure() {
+    const treasure = this.physics.add.sprite(400, 300, 'treasure').setCollideWorldBounds(true);
+    treasure.setBounce(0.3);
+    treasure.setScale(0.3); // Cambiado el valor de escala
+    this.physics.add.collider(treasure, this.platforms);
+    this.physics.add.overlap(this.player, treasure, this.collectTreasure, null, this);
+  }
+
+  collectTreasure(player, treasure) {
+    this.scene.start('Menu');
+  }
+
   hitBomb(player, bomb) {
     this.score = 0;
+    this.sonidoSalto.pause(); // Pausa el sonido de salto
     this.physics.pause();
     player.setTint(0xff0000);
     player.anims.play("turn");
