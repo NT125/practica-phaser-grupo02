@@ -93,7 +93,7 @@ class Escena3 extends Phaser.Scene {
 
     if (this.tiempoRestante <= 0) {  // Si la cuenta rgresiva llega a 0 se pierde el juego.
       this.musicaTH.stop(); 
-      this.scene.stop('Escena3'); // Detiene la musica
+      this.scene.stop('Escena3'); // Detiene la escena 3 
       this.scene.start('GameOver'); //  Cambia a la escena GameOver
     }
   }
@@ -182,7 +182,7 @@ class Escena3 extends Phaser.Scene {
   }
 
   createTreasure() {
-    const treasure = this.physics.add.sprite(400, 300, 'treasure').setCollideWorldBounds(true);
+    const treasure = this.physics.add.sprite(400, 50, 'treasure').setCollideWorldBounds(true);
     treasure.setBounce(0.3);
     treasure.setScale(0.3); // Cambiado el valor de escala
     this.physics.add.collider(treasure, this.platforms);
