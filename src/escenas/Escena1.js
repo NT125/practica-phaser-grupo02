@@ -3,13 +3,12 @@ class Escena1 extends Phaser.Scene {
     super("Escena1");
     this.cantStars = 2;
   }
+
   preload() {
-     //Precargando Sonidos
     this.load.audio('sonidoEstrella', ['/public/sound/confirmation_003.ogg']);
     this.load.audio('sonidoEstrellaFinal', ['/public/sound/confirmation_002.ogg']);
     this.load.audio('sonidoSalto', ['/public/sound/maximize_008.ogg']);
     this.load.audio('musicaTH', ['/public/music/imstill8bits.mp3']);
-    //Precargando Imagenes
     this.load.image("sky", "../../public/img/sky.png");
     this.load.image("ground", "../../public/img/platform.png");
     this.load.image("star", "../../public/img/star.png");
@@ -19,13 +18,14 @@ class Escena1 extends Phaser.Scene {
       frameHeight: 48,
     });
   }
+
   create() {
-  
-    //Agregamos la musica
-    let musicaTH = this.sound.add('musicaTH');
-    
-    musicaTH.play();
-    musicaTH.setVolume(0.1);
+    // Agregamos la musica
+    this.musicaTH = this.sound.add('musicaTH');
+
+    this.musicaTH.play();
+    this.musicaTH.setVolume(0.1);
+
     // TODO: Todo lo que se va a agregar a la Escena
     this.add.image(400, 300, "sky");
     this.platforms = this.physics.add.staticGroup();
@@ -33,7 +33,7 @@ class Escena1 extends Phaser.Scene {
     this.platforms.create(600, 400, "ground");
     this.platforms.create(50, 250, "ground");
     this.platforms.create(750, 220, "ground");
-    
+
     this.player = this.physics.add.sprite(100, 100, "dude");
 
     this.player.setBounce(0.0);
@@ -104,6 +104,7 @@ class Escena1 extends Phaser.Scene {
       this
     );
   }
+
   update() {
     if (this.cursors.left.isDown) {
       this.player.setVelocityX(-160);
@@ -123,26 +124,30 @@ class Escena1 extends Phaser.Scene {
       sonidoSalto.play();
     }
   }
+
   // revisando colisiones
   collectStar(player, star) {
-   
     let sonidoEstrella = this.sound.add('sonidoEstrella');
     let sonidoEstrellaFinal = this.sound.add('sonidoEstrellaFinal');
-    if(this.stars.countActive(true) > 1){
+
+    if (this.stars.countActive(true) > 1) {
       sonidoEstrella.play();
     } else {
-    sonidoEstrellaFinal.play();
-    };
-    //Cuando se superpone jugador con estrella
+      sonidoEstrellaFinal.play();
+    }
+
     star.disableBody(true, true);
     this.cantStars--;
 
-    //Hay estrellas en la pantalla?
     if (this.stars.countActive(true) === 0) {
-      // Mostrando pantalla de victoria (del nivel)
-
-      this.scene.start('NextLevel')
+      this.scene.start('NextLevel');
     }
   }
+
+  // Agregamos el evento shutdown para detener la música al salir de la escena
+  shutdown() {
+    this.musicaTH.stop();
+  }
 }
+
 export default Escena1;
