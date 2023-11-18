@@ -24,9 +24,8 @@ class Escena2 extends Phaser.Scene {
     }
     create() {
       this.musicaTH = this.sound.add('musicaTH');
-
-    this.musicaTH.play();
-    this.musicaTH.setVolume(0.1);
+      this.musicaTH.play();
+      this.musicaTH.setVolume(0.1);
       // TODO: Todo lo que se va a agregar a la Escena
       this.add.image(400, 300, "sky2");
       this.platforms = this.physics.add.staticGroup();
@@ -150,6 +149,7 @@ collectStar(player, star) {
   // Verificar si el puntaje alcanza los 100
   if (this.score >= 100) {
       this.musicaTH.stop();
+      this.scene.stop('Escena2');
       this.scene.start('Escena3');
       
   }
@@ -188,6 +188,7 @@ collectStar(player, star) {
       player.setTint(0xff0000);
       player.anims.play("turn");
       this.musicaTH.stop();
+      this.scene.stop('Escena2');
       this.scene.start('GameOver');
       
     }

@@ -92,7 +92,8 @@ class Escena3 extends Phaser.Scene {
     this.tiempoTexto.setText("Tiempo: " + Math.ceil(this.tiempoRestante));
 
     if (this.tiempoRestante <= 0) {  // Si la cuenta rgresiva llega a 0 se pierde el juego.
-      this.musicaTH.stop();  // Detiene la musica
+      this.musicaTH.stop(); 
+      this.scene.stop('Escena3'); // Detiene la musica
       this.scene.start('GameOver'); //  Cambia a la escena GameOver
     }
   }
@@ -190,8 +191,9 @@ class Escena3 extends Phaser.Scene {
 
   collectTreasure(player, treasure) {
     this.musicaTH.stop();
+    this.scene.stop('Escena3');
     this.sonidoTesoro.play();
-    this.scene.start('Menu');
+    this.scene.start('YouWin');
   }
 
   hitBomb(player, bomb) {
@@ -201,6 +203,7 @@ class Escena3 extends Phaser.Scene {
     player.setTint(0xff0000);
     player.anims.play("turn");
     this.musicaTH.stop();
+    this.scene.stop('Escena3');
     this.scene.start('GameOver');
   }
 }
