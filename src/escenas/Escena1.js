@@ -141,13 +141,12 @@ class Escena1 extends Phaser.Scene {
 
     if (this.stars.countActive(true) === 0) {
       this.scene.start('NextLevel');
+      this.musicaTH.stop();
     }
   }
 
   // Agregamos el evento shutdown para detener la música al salir de la escena
-  shutdown() {
-    this.musicaTH.stop();
-  }
+  
 }
 
 export default Escena1;

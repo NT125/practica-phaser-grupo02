@@ -10,10 +10,15 @@ class Escena3 extends Phaser.Scene {
   }
 
   preload() {
+    // Precarga de sonidos y musica
     this.load.audio('sonidoEstrella', ['/public/sound/confirmation_003.ogg']);
     this.load.audio('sonidoEstrellaFinal', ['/public/sound/confirmation_002.ogg']);
     this.load.audio('sonidoSalto', ['/public/sound/maximize_008.ogg']);
+    this.load.audio('musicaTH', ['/public/music/imstill8bits.mp3']);
     this.sonidoSalto = this.sound.add('sonidoSalto'); // Asignar el sonido de salto
+    this.load.audio('musicaTH', ['/public/music/imstill8bits.mp3']);
+    this.load.audio('tesoro', ['/public/sound/tesoro.mp3']);
+    // Precarga de imágenes
     this.load.image("sky3", "../../public/img/sky3.png");
     this.load.image("ground", "../../public/img/platform.png");
     this.load.image("star", "../../public/img/star.png");
@@ -27,10 +32,14 @@ class Escena3 extends Phaser.Scene {
   }
 
   create() {
+    // Creacion de la musica
+    this.musicaTH = this.sound.add('musicaTH');
+    this.musicaTH.play();
+    this.musicaTH.setVolume(0.1);
+    this.sonidoTesoro = this.sound.add('tesoro');
+    // Creacion de las plataformas
     this.add.image(400, 300, "sky3").setDisplaySize(800, 600);
-
     this.platforms = this.physics.add.staticGroup();
-
     this.platforms.create(400, 568, "ground").setScale(2).refreshBody();
     this.platforms.create(600, 400, "ground");
     this.platforms.create(50, 250, "ground");
@@ -82,8 +91,9 @@ class Escena3 extends Phaser.Scene {
     this.tiempoRestante -= this.game.loop.delta / 1000;
     this.tiempoTexto.setText("Tiempo: " + Math.ceil(this.tiempoRestante));
 
-    if (this.tiempoRestante <= 0) {
-      this.scene.start('GameOver');
+    if (this.tiempoRestante <= 0) {  // Si la cuenta rgresiva llega a 0 se pierde el juego.
+      this.musicaTH.stop();  // Detiene la musica
+      this.scene.start('GameOver'); //  Cambia a la escena GameOver
     }
   }
 
@@ -179,6 +189,8 @@ class Escena3 extends Phaser.Scene {
   }
 
   collectTreasure(player, treasure) {
+    this.musicaTH.stop();
+    this.sonidoTesoro.play();
     this.scene.start('Menu');
   }
 
@@ -188,7 +200,7 @@ class Escena3 extends Phaser.Scene {
     this.physics.pause();
     player.setTint(0xff0000);
     player.anims.play("turn");
-
+    this.musicaTH.stop();
     this.scene.start('GameOver');
   }
 }

@@ -10,6 +10,7 @@ class Escena2 extends Phaser.Scene {
     this.load.audio('sonidoEstrella', ['/public/sound/confirmation_003.ogg']);
     this.load.audio('sonidoEstrellaFinal', ['/public/sound/confirmation_002.ogg']);
     this.load.audio('sonidoSalto', ['/public/sound/maximize_008.ogg']);
+    this.load.audio('musicaTH', ['/public/music/imstill8bits.mp3']);
       //Precargando Imagenes
       this.load.image("sky2", "../../public/img/sky2.png");
       this.load.image("ground", "../../public/img/platform.png"); 
@@ -22,6 +23,10 @@ class Escena2 extends Phaser.Scene {
       }); 
     }
     create() {
+      this.musicaTH = this.sound.add('musicaTH');
+
+    this.musicaTH.play();
+    this.musicaTH.setVolume(0.1);
       // TODO: Todo lo que se va a agregar a la Escena
       this.add.image(400, 300, "sky2");
       this.platforms = this.physics.add.staticGroup();
@@ -144,8 +149,9 @@ collectStar(player, star) {
 
   // Verificar si el puntaje alcanza los 100
   if (this.score >= 100) {
-      // Cambiar a la escena 3 o la que desees
+      this.musicaTH.stop();
       this.scene.start('Escena3');
+      
   }
 
   // Para las bombas
@@ -181,8 +187,9 @@ collectStar(player, star) {
       this.physics.pause();
       player.setTint(0xff0000);
       player.anims.play("turn");
-
+      this.musicaTH.stop();
       this.scene.start('GameOver');
+      
     }
   }
   export default Escena2;
