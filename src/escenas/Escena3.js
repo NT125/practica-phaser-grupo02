@@ -157,21 +157,27 @@ class Escena3 extends Phaser.Scene {
     this.score += 10;
     this.scoreText.setText("Puntuación: " + this.score);
 
-    if (this.stars.countActive(true) === 0) {
-      this.stars.children.iterate(function (child) {
-        const randomX = Phaser.Math.Between(0, 500);
-        child.enableBody(true, randomX, 0, true, true);
-      });
+    // Verifica si se ha alcanzado la puntuación de 100
+    if (this.score < 100) {
+      if (this.stars.countActive(true) === 0) {
+        this.stars.children.iterate(function (child) {
+          const randomX = Phaser.Math.Between(0, 500);
+          child.enableBody(true, randomX, 0, true, true);
+        });
 
-      this.createBomb();
-      this.createBomb();
-
-      if (this.score >= 100) {
-        this.createTreasure();
+        this.createBomb();
+        this.createBomb();
       }
+    } else {
+      // Si se ha alcanzado la puntuación de 100, no se generan más estrellas
+      this.stars.clear(true, true);
+    }
+
+    // Genera el tesoro si se ha alcanzado la puntuación de 100
+    if (this.score >= 100) {
+      this.createTreasure();
     }
   }
-
   createBomb() {
     const x = this.player.x < 400 ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
     const bomb = this.bombs.create(x, 16, "bomb");
@@ -182,7 +188,7 @@ class Escena3 extends Phaser.Scene {
   }
 
   createTreasure() {
-    const treasure = this.physics.add.sprite(400, 50, 'treasure').setCollideWorldBounds(true);
+    const treasure = this.physics.add.sprite(400, 200, 'treasure').setCollideWorldBounds(true);
     treasure.setBounce(0.3);
     treasure.setScale(0.3); // Cambiado el valor de escala
     this.physics.add.collider(treasure, this.platforms);
